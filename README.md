@@ -9,7 +9,7 @@ poured. The funnel is located precisely above the central nail of the second row
 perfectly centered, would fall vertically and directly onto the uppermost point of this nail's. Each time
 a ball hits one of the nails, it can bounce right (or left) with equal probability.
 
-<img src="galton.jpg" width="100" height="100">
+<img src="galton.jpg" width="560" height="631">
 
 ## Run Code
 
