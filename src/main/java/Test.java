@@ -2,10 +2,12 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import static java.lang.System.out;
+
 public class Test {
-    @Option(name="-numThread", required = true)
+    @Option(name="-numThread", required = true, usage = "Number of threads to for filling the bins randomly, must be positive number")
     private static int numberOfThreads;
-    @Option(name="-numBins", required = true)
+    @Option(name="-numBins", required = true, usage = "Number of bins to gather to be filled, must be positive number")
     private static int numberOfBins;
 
     final CmdLineParser parser = new CmdLineParser(this);
@@ -28,10 +30,19 @@ public class Test {
     }
 
     public void getArguments(final String[] args){
+        if (args.length != 4) {
+            parser.printUsage(out);
+            System.exit(-1);
+        }
+
         try{
             parser.parseArgument(args);
+            if (numberOfThreads < 1 || numberOfBins < 1){
+                parser.printUsage(out);
+                System.exit(-1);
+            }
         } catch (CmdLineException exception) {
-            System.out.println("Error to parse arguments: " + exception);
+            out.println("Error to parse arguments: " + exception);
         }
     }
 
@@ -40,13 +51,13 @@ public class Test {
 
         for (int i = 0; i < bins.size(); i++){
             sum += bins.getData(i);
-            System.out.printf("%-10d%d\n", i, bins.getData(i));
+            out.printf("%-10d%d\n", i, bins.getData(i));
         }
 
-        System.out.printf("Number of requested thread: %d\n" +
+        out.printf("Number of requested thread: %d\n" +
                 "Sum of Bin Values: %d\n", numberOfThreads, sum);
 
         if (sum == numberOfThreads)
-            System.out.println("Nice work! Both of them are equal");
+            out.println("Nice work! Both of them are equal");
     }
 }
